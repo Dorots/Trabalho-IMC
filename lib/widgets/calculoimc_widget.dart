@@ -15,15 +15,13 @@ class _CalculoImcWidgetState extends State<CalculoImcWidget> {
   String _resultadoimc;
 
   void _calcularImc() {
-    if (_radioValue == 1) {
-      double altura = double.parse(alturaController.text) / 100.0;
-      double peso = double.parse(pesoController.text);
-      double imc = peso / pow(altura, 2);
+    double altura = double.parse(alturaController.text) / 100.0;
+    double peso = double.parse(pesoController.text);
+    double imc = peso / pow(altura, 2);
 
-      setState(() {
-        _resultadoimc = imc.toStringAsFixed(2) + "\n\n" + getClassificacao(imc);
-      });
-    } else {}
+    setState(() {
+      _resultadoimc = imc.toStringAsFixed(2) + "\n\n" + getClassificacao(imc);
+    });
   }
 
   void _handleRadioValueChange(int value) {
@@ -40,24 +38,35 @@ class _CalculoImcWidgetState extends State<CalculoImcWidget> {
   }
 
   String getClassificacao(num imc) {
-    String strClassificacao;
+    String strClassificacao = "";
 
     if (_radioValue == 1) {
-      if (imc < 18.6) {
+      if (imc < 20) {
         strClassificacao = "Abaixo do peso";
-      } else if (imc < 25.0) {
+      } else if (imc < 26.4) {
         strClassificacao = "Peso Ideal";
-      } else if (imc < 30.0) {
+      } else if (imc < 27.8) {
         strClassificacao = "Levemente acima do peso";
-      } else if (imc < 35.0) {
+      } else if (imc < 31.1) {
+        strClassificacao = "Acima do Peso";
+      } else if (imc > 31.1) {
+        strClassificacao = "Obesidade";
+      }
+    } else {
+      if (imc < 18.5) {
+        strClassificacao = "Abaixo do peso";
+      } else if (imc < 24.9) {
+        strClassificacao = "Peso Ideal";
+      } else if (imc < 29.9) {
+        strClassificacao = "Levemente acima do peso";
+      } else if (imc < 34.9) {
         strClassificacao = "Obesidade grau I";
-      } else if (imc < 40.0) {
+      } else if (imc < 39.9) {
         strClassificacao = "Obesidade grau II";
       } else {
         strClassificacao = "Obesidade grau III";
       }
     }
-    {}
 
     return strClassificacao;
   }
