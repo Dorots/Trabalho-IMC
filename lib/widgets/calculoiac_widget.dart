@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class CalculoImcWidget extends StatefulWidget {
+class CalculoIacWidget extends StatefulWidget {
   @override
-  _CalculoImcWidgetState createState() => _CalculoImcWidgetState();
+  _CalculoIacWidgetState createState() => _CalculoIacWidgetState();
 }
 
-class _CalculoImcWidgetState extends State<CalculoImcWidget> {
+class _CalculoIacWidgetState extends State<CalculoIacWidget> {
   int _radioValue = 0;
   String tipo = "", _strClassificacao = "";
   String informativo = "";
@@ -17,13 +17,13 @@ class _CalculoImcWidgetState extends State<CalculoImcWidget> {
   String _resultadoimc;
 
   void _calcularImc() {
-    double altura = double.parse(alturaController.text) / 100.0;
-    double peso = double.parse(pesoController.text);
-    double imc = peso / pow(altura, 2);
+    double altura = double.parse(alturaController.text) / 100;
+    double circunferencia = double.parse(pesoController.text);
+    double imc = (circunferencia / altura) * sqrt(altura);
+    getClassificacao(imc);
     setState(() {
-      getClassificacao(imc);
       _resultadoimc =
-          "IMC = " + imc.toStringAsFixed(2) + "\n\n" + _strClassificacao;
+          "IAC = " + imc.toStringAsFixed(2) + "\n\n" + _strClassificacao;
     });
   }
 
@@ -38,9 +38,8 @@ class _CalculoImcWidgetState extends State<CalculoImcWidget> {
   void initState() {
     setState(() {
       _radioValue = 1;
-
-      tipo = "Peso em kg";
-      informativo = "Informe o peso";
+      tipo = "Altura em cm";
+      informativo = "Circunferncia em cm";
     });
     super.initState();
   }
@@ -48,31 +47,27 @@ class _CalculoImcWidgetState extends State<CalculoImcWidget> {
   void getClassificacao(num imc) {
     String strClassificacao = "";
 
-    if (_radioValue == 1) {
-      if (imc < 20) {
-        strClassificacao = "Abaixo do peso";
-      } else if (imc < 26.4) {
-        strClassificacao = "Peso Ideal";
-      } else if (imc < 27.8) {
-        strClassificacao = "Levemente acima do peso";
-      } else if (imc < 31.1) {
-        strClassificacao = "Acima do Peso";
-      } else if (imc > 31.1) {
-        strClassificacao = "Obesidade";
-      }
-    } else {
-      if (imc < 18.5) {
-        strClassificacao = "Abaixo do peso";
-      } else if (imc < 24.9) {
-        strClassificacao = "Peso Ideal";
-      } else if (imc < 29.9) {
-        strClassificacao = "Levemente acima do peso";
-      } else if (imc < 34.9) {
-        strClassificacao = "Obesidade grau I";
-      } else if (imc < 39.9) {
-        strClassificacao = "Obesidade grau II";
+    {
+      if (_radioValue == 1) {
+        if (imc < 21) {
+          strClassificacao = "Abaixo do normal";
+        } else if (imc < 32.9) {
+          strClassificacao = "Adiposidade normal";
+        } else if (imc < 38) {
+          strClassificacao = "Sobrepeso";
+        } else {
+          strClassificacao = "Obesidade";
+        }
       } else {
-        strClassificacao = "Obesidade grau III";
+        if (imc < 8) {
+          strClassificacao = "Abaixo do normal";
+        } else if (imc < 20.9) {
+          strClassificacao = "Adiposidade normal";
+        } else if (imc < 25) {
+          strClassificacao = "Sobrepeso";
+        } else {
+          strClassificacao = "Obesidade";
+        }
       }
     }
 
@@ -109,6 +104,13 @@ class _CalculoImcWidgetState extends State<CalculoImcWidget> {
                       new Text("Mulher")
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    
+                      new Text("IAC")
+                    ],
+                  ),
                 ]),
               ),
               Container(
@@ -141,11 +143,7 @@ class _CalculoImcWidgetState extends State<CalculoImcWidget> {
                   ),
                 ),
               ),
-              Container(
-                margin:
-                    EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 6),
-                child: Text(_resultadoimc == null ? "" : _resultadoimc),
-              ),
+
               Container(
                 margin:
                     EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 6),
