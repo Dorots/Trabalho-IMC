@@ -8,7 +8,7 @@ class CalculoImcScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Cálculo IMC'),
       ),
-      body: CAlculoImcWidget(),
+      body: CalculoImcWidget(),
     );
   }
 }

@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
      
       
-      home: CAlculoImcWidget(),
+      home: CalculoImcWidget(),
     );
   }
 }
